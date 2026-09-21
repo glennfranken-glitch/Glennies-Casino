@@ -16,21 +16,29 @@ elif gender == "v":
 else:
     salutation = firstname, lastname
 
-startbudget = float(input("Wat is je startbudget in euro's?"))
+startbudget = round(float(input("Wat is je startbudget in euro's?")),2)
 
 #Vaste kosten
-ENTRY = float(12)
-FLIPFLOPS = float(5)
-SUNGLASSES = float(7)
+ENTRY = round(float(12),2)
+FLIPFLOPS = round(float(5),2)
+SUNGLASSES = round(float(7),2)
 
+TOTALCOST = round(ENTRY + FLIPFLOPS + SUNGLASSES,2)
 
+AVAILABLE_BUDGET = round(startbudget - TOTALCOST,2)
 
-print("""Casino de Gouden Driehoek
+if startbudget > TOTALCOST:
+    budget_statement = "Je hebt nog genoeg budget voor toegang tot het casino."
+
+else:
+    budget_statement = "Je hebt niet voldoende budget voor toegang tot het casino."
+
+print(f"""Casino de Gouden Driehoek
 -------------------------
-Welkom, meneer Jansen
+Welkom, {salutation}
 
-Startbudget:    € 50.00
-Vaste kosten:   € 16.50
-Saldo:          € 33.50
+Startbudget:    € {startbudget}
+Vaste kosten:   € {TOTALCOST}
+Saldo:          € {AVAILABLE_BUDGET}
 
-Je hebt nog genoeg budget voor toegang tot het casino.""")
+{budget_statement}""")
