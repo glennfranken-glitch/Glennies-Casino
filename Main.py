@@ -4,7 +4,7 @@ lastname = input("Achternaam: ")
 firstname = firstname.capitalize()
 lastname = lastname.capitalize()
 
-birthday = input("Geboortedatum: dd-mm-yyyy")
+birthdate = input("Geboortedatum: dd-mm-yyyy")
 
 gender = input("Geslacht: (m/v)")
 if gender == "m":
@@ -16,7 +16,14 @@ elif gender == "v":
 else:
     salutation = f"{firstname} {lastname}"
 
-startbudget = round(float(input("Wat is je startbudget in euro's?")),2)
+startbudget = float(input("Wat is je startbudget in euro's?"))
+
+birth_day, birth_month, birth_year = birthdate.split("-")
+birth_year = int(birth_year)
+age = 2026 - birth_year
+MIN_AGE = 18
+if age < MIN_AGE:
+    exit(1)
 
 #Vaste kosten
 ENTRY = 12.0
@@ -42,3 +49,45 @@ Vaste kosten:   € {TOTALCOST:.2f}
 Saldo:          € {AVAILABLE_BUDGET:.2f}
 
 {budget_statement}""")
+
+balance = AVAILABLE_BUDGET
+
+
+round_number = 1
+
+while True:
+    print("""Kies één van de volgende opties:
+
+1. Rood
+2. Zwart
+3. Even
+4. Oneven
+0. Stop""")
+    choice = int(input("Kies je gok (0 om te stoppen): "))
+    if choice == 0:
+        break
+    else:
+        stake = float(input("Hoeveel wil je inzetten?: "))
+        if stake <= 0:
+            print("Graag een geldige inzet invoeren")
+            continue
+        elif stake > balance:
+            print("Zoveel geld hedde ge niet!")
+            continue
+        else:
+            balance -= stake
+        spin = (round_number * 7) % 37
+        if spin == 0:
+            color = groen
+            odd_even = geen
+        elif spin <= 18:
+            if spin % 2 == 0:
+                color = zwart
+            else:
+                color = rood
+        else spin >18:
+            if spin % 2 == 0:
+                color = rood
+            else:
+                color = zwart
+        win = False
