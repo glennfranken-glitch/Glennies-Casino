@@ -8,26 +8,26 @@ birthday = input("Geboortedatum: dd-mm-yyyy")
 
 gender = input("Geslacht: (m/v)")
 if gender == "m":
-    salutation = "meneer", lastname
+    salutation = f"meneer {lastname}"
 
 elif gender == "v":
-    salutation = "mevrouw", lastname
+    salutation = f"mevrouw {lastname}"
 
 else:
-    salutation = firstname, lastname
+    salutation = f"{firstname} {lastname}"
 
 startbudget = round(float(input("Wat is je startbudget in euro's?")),2)
 
 #Vaste kosten
-ENTRY = round(float(12),2)
-FLIPFLOPS = round(float(5),2)
-SUNGLASSES = round(float(7),2)
+ENTRY = 12.0
+FLIPFLOPS = 5.0
+SUNGLASSES = 7.0
 
-TOTALCOST = round(ENTRY + FLIPFLOPS + SUNGLASSES,2)
+TOTALCOST = ENTRY + FLIPFLOPS + SUNGLASSES
 
-AVAILABLE_BUDGET = round(startbudget - TOTALCOST,2)
+AVAILABLE_BUDGET = startbudget - TOTALCOST
 
-if startbudget > TOTALCOST:
+if startbudget >= TOTALCOST:
     budget_statement = "Je hebt nog genoeg budget voor toegang tot het casino."
 
 else:
@@ -37,8 +37,8 @@ print(f"""Casino de Gouden Driehoek
 -------------------------
 Welkom, {salutation}
 
-Startbudget:    € {startbudget}
-Vaste kosten:   € {TOTALCOST}
-Saldo:          € {AVAILABLE_BUDGET}
+Startbudget:    € {startbudget:.2f}
+Vaste kosten:   € {TOTALCOST:.2f}
+Saldo:          € {AVAILABLE_BUDGET:.2f}
 
 {budget_statement}""")
