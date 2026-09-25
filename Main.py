@@ -78,16 +78,41 @@ while True:
             balance -= stake
         spin = (round_number * 7) % 37
         if spin == 0:
-            color = groen
-            odd_even = geen
+            color = "groen"
+            odd_even = "geen"
         elif spin <= 18:
             if spin % 2 == 0:
-                color = zwart
+                color = "zwart"
+                odd_even = "even"
             else:
-                color = rood
-        else spin >18:
+                color = "rood"
+                odd_even = "oneven"
+        elif spin >18:
             if spin % 2 == 0:
-                color = rood
+                color = "rood"
+                odd_even = "even"
             else:
-                color = zwart
+                color = "zwart"
+                odd_even = "oneven"
         win = False
+        if choice == 1 and color == "rood":
+            win = True
+        elif choice == 2 and color == "zwart":
+            win = True
+        elif choice == 3 and odd_even == "even":
+            win = True
+        elif choice == 4 and odd_even == "oneven":
+            win = True
+
+        if win == True:
+            balance = stake*2+balance
+            win_loss = "wint"
+        elif win == False:
+            win_loss = "verliest"
+
+        print(f"""De bal valt op {color}({spin}).
+Je {win_loss} €{stake:.2f}
+Nieuw saldo: €{balance:.2f}""")
+
+        round_number += 1
+print(f"Je eindigt met €{balance:.2f}")
