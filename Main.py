@@ -1,5 +1,6 @@
 from games.fruitmachine import play_fruitmachine
 from games.roulette import play_roulette
+from games.blackjack import play_blackjack
 
 def show_balance(balance):
     """Toon het huidige saldo van de speler."""
@@ -36,14 +37,14 @@ def check_age(birthdate):
 def show_welcome_message(startbudget, available_budget, salutation,total_costs,budget_statement):
     """Toon het welkomstbericht met budget en huidig saldo."""
     print(f"""Casino de Gouden Driehoek
-    -------------------------
-    Welkom, {salutation}
+-------------------------
+Welkom, {salutation}
 
-    Startbudget:    € {startbudget:.2f}
-    Vaste kosten:   € {total_costs:.2f}
-    Saldo:          € {available_budget:.2f}
+Startbudget:    € {startbudget:.2f}
+Vaste kosten:   € {total_costs:.2f}
+Saldo:          € {available_budget:.2f}
 
-    {budget_statement}""")
+{budget_statement}""")
 
 def show_main_menu():
     """Toon het hoofdmenu van het casino."""
@@ -60,6 +61,7 @@ def show_games_menu():
 -----------------------------------
 1. Fruitmachine
 2. Roulette
+3. Blackjack
 0. Terug""")
 
 def show_account(firstname, lastname, birthdate, salutation):
@@ -116,6 +118,8 @@ def main():
                             balance = play_fruitmachine(balance)
                         case 2:
                             balance = play_roulette(balance)
+                        case 3:
+                            balance = play_blackjack(balance)
 
             case 2:
                 show_balance(balance)

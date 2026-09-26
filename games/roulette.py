@@ -7,7 +7,6 @@ def show_roulette():
 4. Oneven
 0. Stop""")
 
-
 def determine_win(choice, color, odd_even):
     match choice:
         case 1:
@@ -28,10 +27,9 @@ def play_roulette(balance):
         show_roulette()
 
         from games.helper import get_stake
-        choice, stake = get_stake(balance)
-
-        if choice == 0:
-            break
+        stake = get_stake(balance)
+        if stake == 0:
+            return balance
 
         balance -= stake
 

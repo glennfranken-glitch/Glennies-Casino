@@ -45,6 +45,8 @@ Druk op enter om te spelen of typ stop om terug te gaan:""")
 
             case _:
                 stake = get_stake(balance)
+                if stake > 0:
+                    return balance
                 balance -= stake
 
                 rol1, rol2, rol3 = determine_rolls(round_number)
