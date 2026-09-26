@@ -1,5 +1,4 @@
-from itertools import count
-
+from games.helper import get_stake
 
 def determine_rolls(round_number):
         roll = round_number % 9
@@ -34,7 +33,7 @@ def determine_payout(rol1, rol2, rol3, stake):
         stake = 0
     return stake
 
-def play_fruitmachine(balance)
+def play_fruitmachine(balance):
     round_number = 1
     while True:
         choice = input(f"""Huidig saldo: € {balance:.2f}
@@ -45,7 +44,6 @@ Druk op enter om te spelen of typ stop om terug te gaan:""")
                 return balance
 
             case _:
-                from games.helper import get_stake
                 stake = get_stake(balance)
                 balance -= stake
 
@@ -53,10 +51,9 @@ Druk op enter om te spelen of typ stop om terug te gaan:""")
 
                 print(f"Rollen: {rol1} | {rol2} | {rol3}")
 
-            payout = determine_payout(rol1, rol2, rol3, stake)
-            if payout > 0:
-                balance += payout
-            else:
-                print("Je hebt verloren")
-            round_number += 1
-            return balance
+                payout = determine_payout(rol1, rol2, rol3, stake)
+                if payout > 0:
+                    balance += payout
+                else:
+                    print("Je hebt verloren")
+                round_number += 1

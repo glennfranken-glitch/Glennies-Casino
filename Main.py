@@ -106,8 +106,8 @@ def main():
             case 0:
                 break
             case 1:
-                show_games_menu()
                 while True:
+                    show_games_menu()
                     choice_game = int(input("Maak een keuze (0 om te stoppen): "))
                     match choice_game:
                         case 0:
@@ -121,7 +121,7 @@ def main():
                 show_balance(balance)
 
             case 3:
-                show_account()
+                show_account(firstname, lastname, birthdate, salutation)
 
 if __name__ == "__main__":
     main()
