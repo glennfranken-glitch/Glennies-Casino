@@ -11,79 +11,6 @@ def show_balance(balance):
     """
     print(f"Huidig saldo: € {balance:.2f}")
 
-def determine_salutation(firstname, lastname, gender):
-    """Bepaal de juiste aanspreekvorm op basis van naam en geslacht.
-
-    Parameters:
-        lastname (str): De achternaam van de speler.
-        firstname (str): De voornaam van de speler.
-        gender (str): Het geslacht van de speler.
-
-    Returns:
-        str: De gekozen aanspreekvorm.
-    """
-    if gender == "m":
-        salutation = f"meneer {lastname}"
-
-    elif gender == "v":
-        salutation = f"mevrouw {lastname}"
-
-    else:
-        salutation = f"{firstname} {lastname}"
-    return salutation
-
-def calculate_age(birthdate):
-    """Bereken de leeftijd op basis van de geboortedatum.
-
-    Parameters:
-        birthdate (str): De geboortedatum van de speler in dd-mm-yyyy formaat.
-
-    Returns:
-        int: De berekende leeftijd van de speler.
-    """
-    birth_day, birth_month, birth_year = birthdate.split("-")
-    birth_year = int(birth_year)
-    age = 2026 - birth_year
-    return age
-
-def check_age(birthdate):
-    """Controleer of de speler minimaal 18 jaar oud is.
-
-    Parameters:
-        age (int): De leeftijd van de speler.
-
-    Returns:
-        int: De leeftijd van de speler als deze minimaal 18 jaar oud is.
-    """
-    age = calculate_age(birthdate)
-    MIN_AGE = 18
-    if age < MIN_AGE:
-        print("Je bent helaas niet oud genoeg om het casino te betreden.")
-        exit(1)
-    return age
-
-def show_welcome_message(startbudget, available_budget, salutation,total_costs,budget_statement):
-    """Toon het welkomstbericht met budget en huidig saldo.
-
-    Parameters:
-        startbudget (float): Het startbudget van de speler.
-        available_budget (float): Het beschikbare budget na aftrek van de vaste kosten.
-        salutation (str): De aanspreekvorm van de speler.
-        total_cost (float): Het totaalbedrag van de vaste kosten.
-        budget_statement (str): De conclusie over het beschikbare budget.
-    Returns:
-        str: welkomsbericht van het Casino
-    """
-    print(f"""Casino de Gouden Driehoek
--------------------------
-Welkom, {salutation}
-
-Startbudget:    € {startbudget:.2f}
-Vaste kosten:   € {total_costs:.2f}
-Saldo:          € {available_budget:.2f}
-
-{budget_statement}""")
-
 def show_main_menu():
     """Toon het hoofdmenu van het casino."""
     print("""Casino de Gouden Driehoek - hoofdmenu
@@ -102,33 +29,21 @@ def show_games_menu():
 3. Blackjack
 0. Terug""")
 
+def show_account_menu():
+    """Toon het account menu van het casino."""
+    print("""Casino de Gouden Driehoek - account
+------------------------------------
+1. Toon alle accounts
+2. Nieuw account
+3. Wissel account
+4. Verwijder account
+0. Terug""")
+
 def main():
     """Start het casino en verwerkt het hoofdmenu van de applicatie."""
     firstname = input("Voornaam: ").capitalize()
     lastname = input("Achternaam: ").capitalize()
-
-    gender = input("Geslacht: (m/v)")
-    birthdate = input("Geboortedatum: dd-mm-yyyy")
-    check_age(birthdate)
-
-    salutation = determine_salutation(firstname, lastname, gender)
-
-    startbudget = float(input("Wat is je startbudget in euro's?"))
-
-    #Vaste kosten
-    ENTRY = 12.0
-    FLIPFLOPS = 5.0
-    SUNGLASSES = 7.0
-
-    total_costs = ENTRY + FLIPFLOPS + SUNGLASSES
-    available_budget = startbudget - total_costs
-
-    if startbudget >= total_costs:
-        budget_statement = "Je hebt nog genoeg budget voor toegang tot het casino."
-
-    else:
-        budget_statement = "Je hebt niet voldoende budget voor toegang tot het casino."
-    balance = available_budget
+    name = firstname + " " + lastname
 
     show_welcome_message(startbudget, available_budget, salutation, total_costs, budget_statement)
 
@@ -156,7 +71,13 @@ def main():
                 show_balance(balance)
 
             case 3:
-                show_account(firstname, lastname, birthdate, salutation)
+                while True:
+                    show_account_menu()
+                    choice_account = int(input("Maak een keuze (0 om te stoppen): "))
+                    match choice_account:
+                        case 0:
+                            break
+                        case 1:
 
 if __name__ == "__main__":
     main()
