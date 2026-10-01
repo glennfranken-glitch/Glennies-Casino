@@ -5,7 +5,11 @@ SUITS = ["♠", "♥", "♦", "♣"]
 RANKS = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
 
 def create_deck():
-    """Hiermee wordt het spel kaarten gemaakt"""
+    """Maak en schud een volledig blackjackdeck.
+
+    Returns:
+        list: Een geschud deck met 52 kaarten.
+    """
     deck = []
     for suit in SUITS:
         for rank in RANKS:
@@ -13,22 +17,41 @@ def create_deck():
     return deck
 
 def draw_card(deck,hand):
-    """Met deze functie wordt een nieuwe kaart getrokken"""
+    """Trek een kaart uit het deck en voeg deze toe aan een hand.
+
+    Parameters:
+        deck (list): Het huidige deck met beschikbare kaarten.
+        hand (list): De hand waaraan de getrokken kaart wordt toegevoegd.
+
+    Returns:
+        str: De kaart die uit het deck is getrokken.
+    """
     card = deck.pop()
     hand.append(card)
     return card
 
 def show_hand(label, hand, hide_card=False):
-    """Deze functie laat een hand zien en door hide_card True mee te geven wordt 1 van de 2 kaarten verborgen"""
-    if hide_card:
+    """Toon de kaarten in een hand en verberg eventueel de tweede kaart.
+
+        Parameters:
+            label (str): Het label dat voor de hand wordt weergegeven.
+            hand (list): De kaarten in de hand.
+            hide_card (bool): Bepaalt of de tweede kaart verborgen wordt.
+        """    if hide_card:
         visible_cards = hand[:1] + ["??"]
     else:
         visible_cards = hand
     print(f"{label}: {' | '.join(visible_cards)}")
 
 def calculate_card_value(card):
-    """Hiermee wordt de waarde van een kaart berekend"""
-    rank = card[1]
+    """Bereken de waarde van één blackjackkaart.
+
+        Parameters:
+            card (str): De kaart waarvan de waarde bepaald wordt.
+
+        Returns:
+            int: De waarde van de kaart.
+        """    rank = card[1]
     if rank in ["J", "Q", "K"]:
         return 10
     elif rank == "A":
@@ -37,8 +60,14 @@ def calculate_card_value(card):
         return int(rank)
 
 def calculate_hand_value(hand):
-    """Hiermee wordt de waarde van een hand berekend"""
-    total = 0
+    """Bereken de totale waarde van een blackjackhand en verwerk eventuele azen.
+
+        Parameters:
+            hand (list): De kaarten in de blackjackhand.
+
+        Returns:
+            int: De totale waarde van de hand.
+        """    total = 0
     number_of_aces = 0
     for card in hand:
         if card[1] == "A":
@@ -54,7 +83,14 @@ def calculate_hand_value(hand):
     return total
 
 def play_blackjack(balance):
-    """Standaard functie om Blackjack mee te spelen"""
+    """Start een blackjackspel en bepaalt het nieuwe saldo van de speler.
+
+    Parameters:
+        balance (float): Het huidige saldo van de speler.
+
+    Returns:
+        float: Het nieuwe saldo na afloop van het blackjackspel.
+    """
     deck = create_deck()
     random.shuffle(deck)
     player_hand = []

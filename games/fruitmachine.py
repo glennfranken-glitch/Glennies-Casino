@@ -1,6 +1,14 @@
 from games.helper import get_stake
 
 def determine_rolls(round_number):
+    """Bepaal de drie symbolen van de fruitmachine op basis van het ronde-nummer.
+
+        Parameters:
+            round_number (int): Het nummer van de huidige speelronde.
+
+        Returns:
+            tuple: De drie symbolen van de fruitmachine.
+        """
         roll = round_number % 9
 
         match roll:
@@ -24,6 +32,17 @@ def determine_rolls(round_number):
                 return "ster", "ster", "ster"
 
 def determine_payout(rol1, rol2, rol3, stake):
+    """Bereken de uitbetaling op basis van de drie symbolen en de inzet.
+
+        Parameters:
+            rol1 (str): Het eerste symbool van de fruitmachine.
+            rol2 (str): Het tweede symbool van de fruitmachine.
+            rol3 (str): Het derde symbool van de fruitmachine.
+            stake (float): Het bedrag dat de speler heeft ingezet.
+
+        Returns:
+            float: Het bedrag dat aan de speler wordt uitgekeerd.
+        """
     roll_result = rol1 + rol2 + rol3
     if roll_result.count("citroen") == 2 or roll_result.count("ster") == 2 or roll_result.count("kers") == 2:
         stake = stake * 2
@@ -34,6 +53,14 @@ def determine_payout(rol1, rol2, rol3, stake):
     return stake
 
 def play_fruitmachine(balance):
+    """Start het fruitmachine-spel en verwerkt de speelrondes.
+
+        Parameters:
+            balance (float): Het huidige saldo van de speler.
+
+        Returns:
+            float: Het nieuwe saldo na het fruitmachine-spel.
+        """
     round_number = 1
     while True:
         choice = input(f"""Huidig saldo: € {balance:.2f}
