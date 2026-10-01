@@ -1,12 +1,27 @@
 from games.fruitmachine import play_fruitmachine
 from games.roulette import play_roulette
+from games.blackjack import play_blackjack
+from games.helper import show_account
 
 def show_balance(balance):
-    """Toon het huidige saldo van de speler."""
+    """Toon het huidige saldo van de speler.
+
+    Parameters:
+        balance (float): Het huidige saldo van de speler.
+    """
     print(f"Huidig saldo: € {balance:.2f}")
 
 def determine_salutation(firstname, lastname, gender):
-    """Bepaal de juiste aanspreekvorm op basis van naam en geslacht."""
+    """Bepaal de juiste aanspreekvorm op basis van naam en geslacht.
+
+    Parameters:
+        lastname (str): De achternaam van de speler.
+        firstname (str): De voornaam van de speler.
+        gender (str): Het geslacht van de speler.
+
+    Returns:
+        str: De gekozen aanspreekvorm.
+    """
     if gender == "m":
         salutation = f"meneer {lastname}"
 
@@ -18,14 +33,28 @@ def determine_salutation(firstname, lastname, gender):
     return salutation
 
 def calculate_age(birthdate):
-    """Bereken de leeftijd op basis van de geboortedatum."""
+    """Bereken de leeftijd op basis van de geboortedatum.
+
+    Parameters:
+        birthdate (str): De geboortedatum van de speler in dd-mm-yyyy formaat.
+
+    Returns:
+        int: De berekende leeftijd van de speler.
+    """
     birth_day, birth_month, birth_year = birthdate.split("-")
     birth_year = int(birth_year)
     age = 2026 - birth_year
     return age
 
 def check_age(birthdate):
-    """Controleer of de speler minimaal 18 jaar oud is."""
+    """Controleer of de speler minimaal 18 jaar oud is.
+
+    Parameters:
+        age (int): De leeftijd van de speler.
+
+    Returns:
+        int: De leeftijd van de speler als deze minimaal 18 jaar oud is.
+    """
     age = calculate_age(birthdate)
     MIN_AGE = 18
     if age < MIN_AGE:
@@ -34,16 +63,26 @@ def check_age(birthdate):
     return age
 
 def show_welcome_message(startbudget, available_budget, salutation,total_costs,budget_statement):
-    """Toon het welkomstbericht met budget en huidig saldo."""
+    """Toon het welkomstbericht met budget en huidig saldo.
+
+    Parameters:
+        startbudget (float): Het startbudget van de speler.
+        available_budget (float): Het beschikbare budget na aftrek van de vaste kosten.
+        salutation (str): De aanspreekvorm van de speler.
+        total_cost (float): Het totaalbedrag van de vaste kosten.
+        budget_statement (str): De conclusie over het beschikbare budget.
+    Returns:
+        str: welkomsbericht van het Casino
+    """
     print(f"""Casino de Gouden Driehoek
-    -------------------------
-    Welkom, {salutation}
+-------------------------
+Welkom, {salutation}
 
-    Startbudget:    € {startbudget:.2f}
-    Vaste kosten:   € {total_costs:.2f}
-    Saldo:          € {available_budget:.2f}
+Startbudget:    € {startbudget:.2f}
+Vaste kosten:   € {total_costs:.2f}
+Saldo:          € {available_budget:.2f}
 
-    {budget_statement}""")
+{budget_statement}""")
 
 def show_main_menu():
     """Toon het hoofdmenu van het casino."""
@@ -60,17 +99,11 @@ def show_games_menu():
 -----------------------------------
 1. Fruitmachine
 2. Roulette
+3. Blackjack
 0. Terug""")
 
-def show_account(firstname, lastname, birthdate, salutation):
-    age = calculate_age(birthdate)
-
-    print(f"""Naam: {firstname} {lastname}
-Geboortedatum: {birthdate}
-Aanspreekvorm: {salutation}
-Leeftijd: {age}""")
-
 def main():
+    """Start het casino en verwerkt het hoofdmenu van de applicatie."""
     firstname = input("Voornaam: ").capitalize()
     lastname = input("Achternaam: ").capitalize()
 
@@ -116,6 +149,8 @@ def main():
                             balance = play_fruitmachine(balance)
                         case 2:
                             balance = play_roulette(balance)
+                        case 3:
+                            balance = play_blackjack(balance)
 
             case 2:
                 show_balance(balance)
