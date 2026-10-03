@@ -3,6 +3,12 @@ from games.roulette import play_roulette
 from games.blackjack import play_blackjack
 from games.helper import show_account
 
+ENTRY = 12.0
+FLIPFLOPS = 5.0
+SUNGLASSES = 7.0
+
+TOTAL_COST = ENTRY + FLIPFLOPS + SUNGLASSES
+
 def show_balance(balance):
     """Toon het huidige saldo van de speler.
 

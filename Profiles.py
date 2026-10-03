@@ -1,8 +1,6 @@
-__import__()
-
 #Global
 players = {}
-current_player = none
+current_player = None
 
 def determine_salutation(firstname, lastname, gender):
     """Bepaal de juiste aanspreekvorm op basis van naam en geslacht.
@@ -77,7 +75,7 @@ Saldo:          € {available_budget:.2f}
 
 {budget_statement}""")
 
-def create_profile(name, birthdate, gender, balance):
+def create_profile(name, firstname, lastname, birthdate, gender, balance):
     """Maakt een nieuw profiel voor de speler.
 
     Parameters:
@@ -86,40 +84,47 @@ def create_profile(name, birthdate, gender, balance):
         gender (str): Het geslacht van de speler.
         balance (float): Het beschikbare budget van de speler."""
 
-    players[name] = {
-        "name": name,
-        "birthdate": birthdate,
-        "gender": gender,
-        "balance": balance,
-        "played games": {}
-    }
+    profile = {name: {"firstname": firstname, "lastname": lastname, "birthdate": birthdate, "gender": gender,
+                      "balance": balance, "played games": played_games}}
 
-def create_account(total_cost, name=None):
+    return profile
+
+def create_account(players, total_cost, name=None):
     if name in players:
-        print(f"Het account: {name} bestaat al. Gebruik 'Wissel Account'om het te openen")
+        print(f"Het account: {name} bestaat al. Gebruik 'Wissel Account' om het te openen")
         return
 
-    gender = input("Geslacht: (m/v)")
-    birthdate = input("Geboortedatum: dd-mm-yyyy")
-    startbudget = float(input("Wat is je startbudget in euro's?"))
+    gender = input("Geslacht(m/v): ")
+    birthdate = input("Geboortedatum(dd-mm-yyyy): ")
+    startbudget = float(input("Wat is je startbudget in euro's? "))
 
     check_age(birthdate)
 
-    #Vaste kosten
-    ENTRY = 12.0
-    FLIPFLOPS = 5.0
-    SUNGLASSES = 7.0
+    balance = startbudget - total_cost
 
-    total_costs = ENTRY + FLIPFLOPS + SUNGLASSES
-    balance = startbudget - total_costs
-
-    if balance >= total_costs:
+    if balance >= total_cost:
         budget_statement = "Je hebt nog genoeg budget voor toegang tot het casino."
 
     else:
         budget_statement = "Je hebt niet voldoende budget voor toegang tot het casino."
 
-    players[name] = profile
+    profile = create_profile(name, firstname, lastname, birthdate, gender, balance)
+    players.update(profile)
+    return players
 
     #salutation = determine_salutation(firstname, lastname, gender)
-
+# #Test
+# name = "Glenn Franken"
+# firstname = "Glenn"
+# lastname = "Franken"
+# played_games = None
+#
+# ENTRY = 12.0
+# FLIPFLOPS = 5.0
+# SUNGLASSES = 7.0
+#
+# total_cost = ENTRY + FLIPFLOPS + SUNGLASSES
+# #aanroepen te testen functies
+# create_account(players, total_cost, name)
+#
+# print(players)
