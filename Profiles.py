@@ -1,6 +1,6 @@
 #Global
-players = {}
-current_player = None
+global players
+global current_player
 
 def determine_salutation(firstname, lastname, gender):
     """Bepaal de juiste aanspreekvorm op basis van naam en geslacht.

@@ -2,12 +2,13 @@ from games.fruitmachine import play_fruitmachine
 from games.roulette import play_roulette
 from games.blackjack import play_blackjack
 from games.helper import show_account
+from Profiles import *
 
 ENTRY = 12.0
 FLIPFLOPS = 5.0
 SUNGLASSES = 7.0
 
-TOTAL_COST = ENTRY + FLIPFLOPS + SUNGLASSES
+total_cost = ENTRY + FLIPFLOPS + SUNGLASSES
 
 def show_balance(balance):
     """Toon het huidige saldo van de speler.
@@ -45,14 +46,38 @@ def show_account_menu():
 4. Verwijder account
 0. Terug""")
 
-def main():
-    """Start het casino en verwerkt het hoofdmenu van de applicatie."""
+def initialize_player(total_cost):
+    global players
+    global current_player
+
+    players = create_start_players()  # Deze functie is bonus
     firstname = input("Voornaam: ").capitalize()
     lastname = input("Achternaam: ").capitalize()
     name = firstname + " " + lastname
+    current_player = name
 
-    show_welcome_message(startbudget, available_budget, salutation, total_costs, budget_statement)
+    if name in players:
+        profile = players[current_player]
+        salutation = determine_salutation(profile["firstname"], profile["lastname"], profile["gender"])
+        balance = profile["saldo"]
+        print(f"""Casino de Gouden Driehoek
+-------------------------
+Welkom terug, {salutation}
 
+huidige saldo: € {available_budget:.2f}""")
+
+    else:
+        create_account(players, total_cost, name)
+        profile = players[current_player]
+        balance = profile["saldo"]
+        start_balance = balance + total_cost  # Het startbudget wordt opnieuw berekend omdat create_account alleen het saldo na de vaste kosten opslaat. Total_cost is een parameter van deze functie
+        salutation = determine_salutation(current_player, profile["gender"])
+        show_welcome_message(startbudget, available_budget, salutation, total_costs, budget_statement)
+
+def main():
+    """Start het casino en verwerkt het hoofdmenu van de applicatie."""
+
+    initialize_player(total_cost)
     while True:
         show_main_menu()
         choice_main = int(input("Maak een keuze (0 om te stoppen): "))
@@ -84,6 +109,7 @@ def main():
                         case 0:
                             break
                         case 1:
+                            pass
 
 if __name__ == "__main__":
     main()
