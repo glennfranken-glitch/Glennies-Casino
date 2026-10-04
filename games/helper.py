@@ -29,3 +29,16 @@ def show_account(firstname, lastname, birthdate, salutation):
 Geboortedatum: {birthdate}
 Aanspreekvorm: {salutation}
 Leeftijd: {age}""")
+
+def get_name():
+    firstname = input("Voornaam: ").capitalize()
+    lastname = input("Achternaam: ").capitalize()
+    name = firstname + " " + lastname
+    return name, firstname, lastname
+
+def get_current_balance(players, current_player):
+    balance = players[current_player]["balance"]
+    return balance
+
+def get_current_player():
+    return current_player

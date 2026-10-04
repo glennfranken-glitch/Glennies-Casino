@@ -1,7 +1,7 @@
 from games.fruitmachine import play_fruitmachine
 from games.roulette import play_roulette
 from games.blackjack import play_blackjack
-from games.helper import show_account
+from games.helper import *
 from Profiles import *
 
 ENTRY = 12.0
@@ -10,13 +10,13 @@ SUNGLASSES = 7.0
 
 total_cost = ENTRY + FLIPFLOPS + SUNGLASSES
 
-def show_balance(balance):
+def show_balance(players, current_player):
     """Toon het huidige saldo van de speler.
 
     Parameters:
         balance (float): Het huidige saldo van de speler.
     """
-    print(f"Huidig saldo: € {balance:.2f}")
+    print(f"Huidig saldo: € {players[current_player]["balance"]:.2f}")
 
 def show_main_menu():
     """Toon het hoofdmenu van het casino."""
@@ -50,27 +50,26 @@ def initialize_player(total_cost):
     global players
     global current_player
 
-    # players = create_start_players()  # Deze functie is bonus
-    firstname = input("Voornaam: ").capitalize()
-    lastname = input("Achternaam: ").capitalize()
-    name = firstname + " " + lastname
+    players = create_start_players()
+    name, firstname, lastname = get_name()
     current_player = name
 
     if name in players:
         profile = players[current_player]
         salutation = determine_salutation(profile["firstname"], profile["lastname"], profile["gender"])
-        balance = profile["saldo"]
+        balance = get_current_balance(players, current_player)
         print(f"""Casino de Gouden Driehoek
 -------------------------
 Welkom terug, {salutation}
 
-huidige saldo: € {available_budget:.2f}""")
+huidige saldo: € {balance:.2f}""")
 
     else:
-        profile, budget_statement = create_account(players, total_cost, name, firstname, lastname)
+        profile, budget_statement = create_account(total_cost, name, firstname, lastname)
         profile = players[current_player]
-        balance = profile["balance"]
-        startbudget = balance + total_cost  # Het startbudget wordt opnieuw berekend omdat create_account alleen het saldo na de vaste kosten opslaat. Total_cost is een parameter van deze functie
+        print(players[current_player]["balance"])
+        balance = get_current_balance(players, current_player)
+        startbudget = balance + total_cost
         print(profile["gender"])
         salutation = determine_salutation(profile["firstname"], profile["lastname"], profile["gender"])
         show_welcome_message(startbudget, balance, salutation, total_cost, budget_statement)
@@ -96,13 +95,16 @@ def main():
                             break
                         case 1:
                             balance = play_fruitmachine(balance)
+                            players[current_player]["balance"] = balance
                         case 2:
                             balance = play_roulette(balance)
+                            players[current_player]["balance"] = balance
                         case 3:
                             balance = play_blackjack(balance)
+                            players[current_player]["balance"] = balance
 
             case 2:
-                show_balance(profile["balance"])
+                show_balance(players, current_player)
 
             case 3:
                 while True:
@@ -112,7 +114,16 @@ def main():
                         case 0:
                             break
                         case 1:
-                            pass
+                            show_accounts()
+                        case 2:
+                            create_account(players, total_cost, name = None, firstname = None, lastname = None)
+                        case 3:
+                            switch_player()
+                        case 4:
+                            delete_player()
+                        case _:
+                            print("Foutive invoer")
+                            break
 
 if __name__ == "__main__":
     main()

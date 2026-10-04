@@ -12,6 +12,7 @@ def show_roulette():
 
     choice = int(input("Keuze: "))
     return choice
+
 def determine_win(choice, color, odd_even):
     """Bepaal of de gekozen inzet overeenkomt met de uitkomst van de roulette.
 

@@ -1,4 +1,6 @@
 #Global
+from games.helper import get_name
+
 players = {}
 current_player = None
 played_games = None
@@ -76,6 +78,47 @@ Saldo:          € {balance:.2f}
 
 {budget_statement}""")
 
+def create_start_players():
+    global players
+    players = {
+    "Jan Jansen": {
+        "firstname": "Jan",
+        "lastname": "Jansen",
+        "birthdate": "15-03-1990",
+        "gender": "M",
+        "balance": 100.00
+    },
+    "Piet Peters": {
+        "firstname": "Piet",
+        "lastname": "Peters",
+        "birthdate": "22-07-1985",
+        "gender": "M",
+        "balance": 75.00
+    },
+    "Anna de Vries": {
+        "firstname": "Anna",
+        "lastname": "de Vries",
+        "birthdate": "10-11-1995",
+        "gender": "V",
+        "balance": 150.00
+    },
+    "Lisa Bakker": {
+        "firstname": "Lisa",
+        "lastname": "Bakker",
+        "birthdate": "03-02-2000",
+        "gender": "V",
+        "balance": 50.00
+    },
+    "Kees Smit": {
+        "firstname": "Kees",
+        "lastname": "Smit",
+        "birthdate": "28-09-1978",
+        "gender": "M",
+        "balance": 200.00
+    }
+}
+    return players
+
 def create_profile(name, firstname, lastname, birthdate, gender, balance):
     """Maakt een nieuw profiel voor de speler.
 
@@ -90,7 +133,10 @@ def create_profile(name, firstname, lastname, birthdate, gender, balance):
 
     return profile
 
-def create_account(players, total_cost, name = None, firstname = None, lastname = None):
+def create_account(total_cost, name = None, firstname = None, lastname = None):
+    global current_player
+    global players
+
     if name in players:
         print(f"Het account: {name} bestaat al. Gebruik 'Wissel Account' om het te openen")
         return
@@ -111,14 +157,90 @@ def create_account(players, total_cost, name = None, firstname = None, lastname 
 
     profile = create_profile(name, firstname, lastname, birthdate, gender, balance)
     players.update(profile)
+    current_player = name
     return players, budget_statement
 
     #salutation = determine_salutation(firstname, lastname, gender)
+
+def show_accounts(players):
+    for player in players:
+        print(player)
+
+def switch_player():
+    global current_player
+
+    print("Beschikbare accounts:")
+    {show_accounts(players)}
+
+    name = input("Welk account wil je gaan gebruiken? ")
+    if name in players:
+        current_player = name
+        return players[current_player]
+
+    print("Account bestaat niet")
+
+def delete_player():
+    global current_player
+
+    print("Beschikbare accounts:")
+    show_accounts(players)
+
+    name = input("Welk account wil je verwijderen? ")
+
+    if name in players:
+        del players[name]
+        print(f"Account {name} is verwijderd.")
+
+        if name == current_player:
+            switch_player()
+
+        return True
+
+    print("Account bestaat niet.")
+    return False
+
 # #Test
 # name = "Glenn Franken"
 # firstname = "Glenn"
 # lastname = "Franken"
 # played_games = None
+# players = {
+#     "Jan Jansen": {
+#         "firstname": "Jan",
+#         "lastname": "Jansen",
+#         "birthdate": "15-03-1990",
+#         "gender": "M",
+#         "balance": 100.00
+#     },
+#     "Piet Peters": {
+#         "firstname": "Piet",
+#         "lastname": "Peters",
+#         "birthdate": "22-07-1985",
+#         "gender": "M",
+#         "balance": 75.00
+#     },
+#     "Anna de Vries": {
+#         "firstname": "Anna",
+#         "lastname": "de Vries",
+#         "birthdate": "10-11-1995",
+#         "gender": "V",
+#         "balance": 150.00
+#     },
+#     "Lisa Bakker": {
+#         "firstname": "Lisa",
+#         "lastname": "Bakker",
+#         "birthdate": "03-02-2000",
+#         "gender": "V",
+#         "balance": 50.00
+#     },
+#     "Kees Smit": {
+#         "firstname": "Kees",
+#         "lastname": "Smit",
+#         "birthdate": "28-09-1978",
+#         "gender": "M",
+#         "balance": 200.00
+#     }
+# }
 #
 # ENTRY = 12.0
 # FLIPFLOPS = 5.0
@@ -126,6 +248,4 @@ def create_account(players, total_cost, name = None, firstname = None, lastname 
 #
 # total_cost = ENTRY + FLIPFLOPS + SUNGLASSES
 # #aanroepen te testen functies
-# create_account(players, total_cost, name)
-#
-# print(players)
+# show_accounts(players)
