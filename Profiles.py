@@ -5,6 +5,9 @@ players = {}
 current_player = None
 played_games = None
 
+def get_current_player():
+    return current_player
+
 def determine_salutation(firstname, lastname, gender):
     """Bepaal de juiste aanspreekvorm op basis van naam en geslacht.
 
@@ -179,14 +182,12 @@ def switch_player():
 
     print("Account bestaat niet")
 
-def delete_player():
-    global current_player
-
-    print("Beschikbare accounts:")
+def delete_player(current_player):
+    # print(f"Profiles current_player: {current_player}")
+    # print("Beschikbare accounts:")
     show_accounts(players)
 
     name = input("Welk account wil je verwijderen? ")
-
     if name in players:
         del players[name]
         print(f"Account {name} is verwijderd.")

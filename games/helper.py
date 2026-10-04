@@ -39,6 +39,3 @@ def get_name():
 def get_current_balance(players, current_player):
     balance = players[current_player]["balance"]
     return balance
-
-def get_current_player():
-    return current_player

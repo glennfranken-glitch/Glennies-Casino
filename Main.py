@@ -78,7 +78,6 @@ huidige saldo: € {balance:.2f}""")
 
 def main():
     """Start het casino en verwerkt het hoofdmenu van de applicatie."""
-
     profile, balance = initialize_player(total_cost)
     while True:
         show_main_menu()
@@ -114,13 +113,14 @@ def main():
                         case 0:
                             break
                         case 1:
-                            show_accounts()
+                            show_accounts(players)
                         case 2:
                             create_account(players, total_cost, name = None, firstname = None, lastname = None)
                         case 3:
                             switch_player()
                         case 4:
-                            delete_player()
+                            #print(f"Main current_player: {current_player}")
+                            delete_player(current_player)
                         case _:
                             print("Foutive invoer")
                             break
