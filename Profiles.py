@@ -1,6 +1,7 @@
 #Global
-global players
-global current_player
+players = {}
+current_player = None
+played_games = None
 
 def determine_salutation(firstname, lastname, gender):
     """Bepaal de juiste aanspreekvorm op basis van naam en geslacht.
@@ -53,7 +54,7 @@ def check_age(birthdate):
         exit(1)
     return age
 
-def show_welcome_message(startbudget, available_budget, salutation,total_costs,budget_statement):
+def show_welcome_message(startbudget, balance, salutation,total_costs,budget_statement):
     """Toon het welkomstbericht met budget en huidig saldo.
 
     Parameters:
@@ -71,7 +72,7 @@ Welkom, {salutation}
 
 Startbudget:    € {startbudget:.2f}
 Vaste kosten:   € {total_costs:.2f}
-Saldo:          € {available_budget:.2f}
+Saldo:          € {balance:.2f}
 
 {budget_statement}""")
 
@@ -89,7 +90,7 @@ def create_profile(name, firstname, lastname, birthdate, gender, balance):
 
     return profile
 
-def create_account(players, total_cost, name=None):
+def create_account(players, total_cost, name = None, firstname = None, lastname = None):
     if name in players:
         print(f"Het account: {name} bestaat al. Gebruik 'Wissel Account' om het te openen")
         return
@@ -110,7 +111,7 @@ def create_account(players, total_cost, name=None):
 
     profile = create_profile(name, firstname, lastname, birthdate, gender, balance)
     players.update(profile)
-    return players
+    return players, budget_statement
 
     #salutation = determine_salutation(firstname, lastname, gender)
 # #Test

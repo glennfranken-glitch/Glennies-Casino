@@ -10,6 +10,8 @@ def show_roulette():
 4. Oneven
 0. Stop""")
 
+    choice = int(input("Keuze: "))
+    return choice
 def determine_win(choice, color, odd_even):
     """Bepaal of de gekozen inzet overeenkomt met de uitkomst van de roulette.
 
@@ -45,7 +47,9 @@ def play_roulette(balance):
     round_number = 1
 
     while True:
-        show_roulette()
+        choice = show_roulette()
+        if choice == 0:
+            return balance
 
         stake = get_stake(balance)
         if stake == 0:

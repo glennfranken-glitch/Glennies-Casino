@@ -50,7 +50,7 @@ def initialize_player(total_cost):
     global players
     global current_player
 
-    players = create_start_players()  # Deze functie is bonus
+    # players = create_start_players()  # Deze functie is bonus
     firstname = input("Voornaam: ").capitalize()
     lastname = input("Achternaam: ").capitalize()
     name = firstname + " " + lastname
@@ -67,17 +67,20 @@ Welkom terug, {salutation}
 huidige saldo: € {available_budget:.2f}""")
 
     else:
-        create_account(players, total_cost, name)
+        profile, budget_statement = create_account(players, total_cost, name, firstname, lastname)
         profile = players[current_player]
-        balance = profile["saldo"]
-        start_balance = balance + total_cost  # Het startbudget wordt opnieuw berekend omdat create_account alleen het saldo na de vaste kosten opslaat. Total_cost is een parameter van deze functie
-        salutation = determine_salutation(current_player, profile["gender"])
-        show_welcome_message(startbudget, available_budget, salutation, total_costs, budget_statement)
+        balance = profile["balance"]
+        startbudget = balance + total_cost  # Het startbudget wordt opnieuw berekend omdat create_account alleen het saldo na de vaste kosten opslaat. Total_cost is een parameter van deze functie
+        print(profile["gender"])
+        salutation = determine_salutation(profile["firstname"], profile["lastname"], profile["gender"])
+        show_welcome_message(startbudget, balance, salutation, total_cost, budget_statement)
+
+    return profile, balance
 
 def main():
     """Start het casino en verwerkt het hoofdmenu van de applicatie."""
 
-    initialize_player(total_cost)
+    profile, balance = initialize_player(total_cost)
     while True:
         show_main_menu()
         choice_main = int(input("Maak een keuze (0 om te stoppen): "))
@@ -99,7 +102,7 @@ def main():
                             balance = play_blackjack(balance)
 
             case 2:
-                show_balance(balance)
+                show_balance(profile["balance"])
 
             case 3:
                 while True:
