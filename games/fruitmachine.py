@@ -9,27 +9,27 @@ def determine_rolls(round_number):
         Returns:
             tuple: De drie symbolen van de fruitmachine.
         """
-        roll = round_number % 9
+    roll = round_number % 9
 
-        match roll:
-            case 0:
-                return "kers", "kers", "kers"
-            case 1:
-                return "kers", "kers", "citroen"
-            case 2:
-                return "kers", "kers", "ster"
-            case 3:
-                return "kers", "citroen", "ster"
-            case 4:
-                return "kers", "citroen", "citroen"
-            case 5:
-                return "kers", "ster", "ster"
-            case 6:
-                return "citroen", "citroen", "citroen"
-            case 7:
-                return "citroen", "ster", "ster"
-            case 8:
-                return "ster", "ster", "ster"
+    match roll:
+        case 0:
+            return "kers", "kers", "kers"
+        case 1:
+            return "kers", "kers", "citroen"
+        case 2:
+            return "kers", "kers", "ster"
+        case 3:
+            return "kers", "citroen", "ster"
+        case 4:
+            return "kers", "citroen", "citroen"
+        case 5:
+            return "kers", "ster", "ster"
+        case 6:
+            return "citroen", "citroen", "citroen"
+        case 7:
+            return "citroen", "ster", "ster"
+        case 8:
+            return "ster", "ster", "ster"
 
 def determine_payout(rol1, rol2, rol3, stake):
     """Bereken de uitbetaling op basis van de drie symbolen en de inzet.
@@ -72,7 +72,7 @@ Druk op enter om te spelen of typ stop om terug te gaan:""")
 
             case _:
                 stake = get_stake(balance)
-                if stake > 0:
+                if stake == 0:
                     return balance
                 balance -= stake
 
