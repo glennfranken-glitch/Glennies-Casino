@@ -1,35 +1,17 @@
 from games.helper import get_stake
+import random
 
-def determine_rolls(round_number):
-    """Bepaal de drie symbolen van de fruitmachine op basis van het ronde-nummer.
+def determine_rolls():
+    """Bepaal de drie symbolen van de fruitmachine op basis van een vaste set symbolen. Er worden random 3 gekozen
 
         Parameters:
-            round_number (int): Het nummer van de huidige speelronde.
 
         Returns:
             tuple: De drie symbolen van de fruitmachine.
         """
-    roll = round_number % 9
-
-    match roll:
-        case 0:
-            return "kers", "kers", "kers"
-        case 1:
-            return "kers", "kers", "citroen"
-        case 2:
-            return "kers", "kers", "ster"
-        case 3:
-            return "kers", "citroen", "ster"
-        case 4:
-            return "kers", "citroen", "citroen"
-        case 5:
-            return "kers", "ster", "ster"
-        case 6:
-            return "citroen", "citroen", "citroen"
-        case 7:
-            return "citroen", "ster", "ster"
-        case 8:
-            return "ster", "ster", "ster"
+    symbols = "kers", "citroen", "ster"
+    roll = random.choice(symbols), random.choice(symbols), random.choice(symbols)
+    return roll
 
 def determine_payout(rol1, rol2, rol3, stake):
     """Bereken de uitbetaling op basis van de drie symbolen en de inzet.
