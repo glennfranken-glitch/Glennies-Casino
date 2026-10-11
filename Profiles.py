@@ -1,4 +1,6 @@
 #Global
+from rich.console import Console
+from rich.panel import Panel
 from games.helper import get_name
 
 players = {}
@@ -71,15 +73,21 @@ def show_welcome_message(startbudget, balance, salutation,total_costs,budget_sta
     Returns:
         str: welkomsbericht van het Casino
     """
-    print(f"""Casino de Gouden Driehoek
--------------------------
-Welkom, {salutation}
+    panel = Panel.fit(
+        f"""Welkom, {salutation}
 
-Startbudget:    € {startbudget:.2f}
-Vaste kosten:   € {total_costs:.2f}
-Saldo:          € {balance:.2f}
+    Startbudget:    € {startbudget:.2f}
+    Vaste kosten:   € {total_costs:.2f}
+    Saldo:          € {balance:.2f}
 
-{budget_statement}""")
+    {budget_statement}""",
+        title="[bold yellow]Welkom @ Casino de Gouden Driehoek[/]",
+        border_style="gold1",
+        padding=(1, 4)
+    )
+
+    console = Console()
+    console.print(panel)
 
 def create_start_players():
     global players
