@@ -33,7 +33,7 @@ def show_main_menu():
     table.add_row("3.", "Account")
     table.add_row("0.", "Stop")
     panel = Panel.fit(table,
-title="[bold yellow]Casino de Gouden Driehoek[/]",
+title="[bold yellow]Casino de Gouden Driehoek - Hoofdmenu[/]",
 border_style="gold1",
 padding=(1, 4))
     console = Console()
@@ -41,22 +41,40 @@ padding=(1, 4))
 
 def show_games_menu():
     """Toon het menu met de beschikbare casinospellen."""
-    print("""Casino de Gouden Driehoek - spellen
------------------------------------
-1. Fruitmachine
-2. Roulette
-3. Blackjack
-0. Terug""")
+
+    table = Table()
+    table.add_column("[magenta]Optie[/]", justify="center", style="bold gold1")
+    table.add_column("[magenta]Spel[/]")
+
+    table.add_row("1.", "Fruitmachine")
+    table.add_row("2.", "Roulette")
+    table.add_row("3.", "Blackjack")
+    table.add_row("0.", "Terug")
+    panel = Panel.fit(table,
+                      title="[bold yellow]Casino de Gouden Driehoek - Spelmenu[/]",
+                      border_style="gold1",
+                      padding=(1, 4))
+    console = Console()
+    console.print(panel)
 
 def show_account_menu():
     """Toon het account menu van het casino."""
-    print("""Casino de Gouden Driehoek - account
-------------------------------------
-1. Toon alle accounts
-2. Nieuw account
-3. Wissel account
-4. Verwijder account
-0. Terug""")
+
+    table = Table()
+    table.add_column("[magenta]Optie[/]", justify="center", style="bold gold1")
+    table.add_column("[magenta]Actie[/]")
+
+    table.add_row("1.", "Toon alle accounts")
+    table.add_row("2.", "Nieuw account")
+    table.add_row("3.", "Wissel account")
+    table.add_row("3.", "Verwijder account")
+    table.add_row("0.", "Terug")
+    panel = Panel.fit(table,
+                      title="[bold yellow]Casino de Gouden Driehoek - Account menu[/]",
+                      border_style="gold1",
+                      padding=(1, 4))
+    console = Console()
+    console.print(panel)
 
 def initialize_player(total_cost):
     global players
