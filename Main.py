@@ -3,6 +3,9 @@ from games.roulette import play_roulette
 from games.blackjack import play_blackjack
 from games.helper import *
 from Profiles import *
+from rich.console import Console
+from rich.panel import Panel
+from rich.table import Table
 
 ENTRY = 12.0
 FLIPFLOPS = 5.0
@@ -20,12 +23,21 @@ def show_balance(players, current_player):
 
 def show_main_menu():
     """Toon het hoofdmenu van het casino."""
-    print("""Casino de Gouden Driehoek - hoofdmenu
--------------------------------------
-1. Spellen
-2. Saldo
-3. Account
-0. Stop""")
+
+    table = Table()
+    table.add_column("[magenta]Optie[/]", justify="center", style="bold gold1")
+    table.add_column("[magenta]Actie[/]")
+
+    table.add_row("1.", "Spellen")
+    table.add_row("2.", "Saldo")
+    table.add_row("3.", "Account")
+    table.add_row("0.", "Stop")
+    panel = Panel.fit(table,
+title="[bold yellow]Casino de Gouden Driehoek[/]",
+border_style="gold1",
+padding=(1, 4))
+    console = Console()
+    console.print(panel)
 
 def show_games_menu():
     """Toon het menu met de beschikbare casinospellen."""
