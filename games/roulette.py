@@ -2,14 +2,22 @@ from games.helper import get_stake
 
 def show_roulette():
     """Toon de beschikbare inzetmogelijkheden van roulette."""
-    print("""Kies één van de volgende opties:
 
-1. Rood
-2. Zwart
-3. Even
-4. Oneven
-0. Stop""")
+    table = Table()
+    table.add_column("[magenta]Optie[/]", justify="center", style="bold gold1")
+    table.add_column("[magenta]Actie[/]")
 
+    table.add_row("1.", "Rood")
+    table.add_row("2.", "Zwart")
+    table.add_row("3.", "Even")
+    table.add_row("4.", "Oneven")
+    table.add_row("0.", "Stop")
+    panel = Panel.fit(table,
+                      title="[bold yellow]Kies één van de volgende opties:[/]",
+                      border_style="gold1",
+                      padding=(1, 4))
+    console = Console()
+    console.print(panel)
     choice = int(input("Keuze: "))
     return choice
 
