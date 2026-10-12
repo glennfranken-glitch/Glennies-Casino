@@ -1,4 +1,8 @@
 from games.helper import get_stake
+import random
+from rich.console import Console
+from rich.panel import Panel
+from rich.table import Table
 
 def show_roulette():
     """Toon de beschikbare inzetmogelijkheden van roulette."""
@@ -53,9 +57,9 @@ def play_roulette(balance):
         Returns:
             float: Het nieuwe saldo na het roulette-spel.
         """
-    round_number = 1
 
     while True:
+        console = Console()
         choice = show_roulette()
         if choice == 0:
             return balance
@@ -66,8 +70,7 @@ def play_roulette(balance):
 
         balance -= stake
 
-        spin = (round_number * 7) % 37
-
+        spin = random.randint(0, 36)
         if spin == 0:
             color = "groen"
             odd_even = "geen"
@@ -92,15 +95,13 @@ def play_roulette(balance):
 
         if win:
             balance = balance + stake * 2
-            win_loss = "wint"
+            console.print(f"""De bal valt op {color} ({spin}).
+Je [green]wint[/] €{stake:.2f}
+[bold]Nieuw saldo: €{balance:.2f}[/]""")
         else:
-            win_loss = "verliest"
-
-        print(f"""De bal valt op {color} ({spin}).
-Je {win_loss} €{stake:.2f}
-Nieuw saldo: €{balance:.2f}""")
-
-        round_number += 1
+            console.print(f"""De bal valt op {color} ({spin}).
+            Je [red]verliest[/] €{stake:.2f}
+            [bold]Nieuw saldo: €{balance:.2f}[/]""")
 
     print(f"Je eindigt met €{balance:.2f}")
 
