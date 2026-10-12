@@ -1,137 +1,114 @@
 from games.fruitmachine import play_fruitmachine
 from games.roulette import play_roulette
 from games.blackjack import play_blackjack
-from games.helper import show_account
+from games.helper import *
+from Profiles import *
+from rich.console import Console
+from rich.panel import Panel
+from rich.table import Table
 
-def show_balance(balance):
+ENTRY = 12.0
+FLIPFLOPS = 5.0
+SUNGLASSES = 7.0
+
+total_cost = ENTRY + FLIPFLOPS + SUNGLASSES
+
+def show_balance(players, current_player):
     """Toon het huidige saldo van de speler.
 
     Parameters:
         balance (float): Het huidige saldo van de speler.
     """
-    print(f"Huidig saldo: € {balance:.2f}")
-
-def determine_salutation(firstname, lastname, gender):
-    """Bepaal de juiste aanspreekvorm op basis van naam en geslacht.
-
-    Parameters:
-        lastname (str): De achternaam van de speler.
-        firstname (str): De voornaam van de speler.
-        gender (str): Het geslacht van de speler.
-
-    Returns:
-        str: De gekozen aanspreekvorm.
-    """
-    if gender == "m":
-        salutation = f"meneer {lastname}"
-
-    elif gender == "v":
-        salutation = f"mevrouw {lastname}"
-
-    else:
-        salutation = f"{firstname} {lastname}"
-    return salutation
-
-def calculate_age(birthdate):
-    """Bereken de leeftijd op basis van de geboortedatum.
-
-    Parameters:
-        birthdate (str): De geboortedatum van de speler in dd-mm-yyyy formaat.
-
-    Returns:
-        int: De berekende leeftijd van de speler.
-    """
-    birth_day, birth_month, birth_year = birthdate.split("-")
-    birth_year = int(birth_year)
-    age = 2026 - birth_year
-    return age
-
-def check_age(birthdate):
-    """Controleer of de speler minimaal 18 jaar oud is.
-
-    Parameters:
-        age (int): De leeftijd van de speler.
-
-    Returns:
-        int: De leeftijd van de speler als deze minimaal 18 jaar oud is.
-    """
-    age = calculate_age(birthdate)
-    MIN_AGE = 18
-    if age < MIN_AGE:
-        print("Je bent helaas niet oud genoeg om het casino te betreden.")
-        exit(1)
-    return age
-
-def show_welcome_message(startbudget, available_budget, salutation,total_costs,budget_statement):
-    """Toon het welkomstbericht met budget en huidig saldo.
-
-    Parameters:
-        startbudget (float): Het startbudget van de speler.
-        available_budget (float): Het beschikbare budget na aftrek van de vaste kosten.
-        salutation (str): De aanspreekvorm van de speler.
-        total_cost (float): Het totaalbedrag van de vaste kosten.
-        budget_statement (str): De conclusie over het beschikbare budget.
-    Returns:
-        str: welkomsbericht van het Casino
-    """
-    print(f"""Casino de Gouden Driehoek
--------------------------
-Welkom, {salutation}
-
-Startbudget:    € {startbudget:.2f}
-Vaste kosten:   € {total_costs:.2f}
-Saldo:          € {available_budget:.2f}
-
-{budget_statement}""")
+    print(f"Huidig saldo: € {players[current_player]["balance"]:.2f}")
 
 def show_main_menu():
     """Toon het hoofdmenu van het casino."""
-    print("""Casino de Gouden Driehoek - hoofdmenu
--------------------------------------
-1. Spellen
-2. Saldo
-3. Account
-0. Stop""")
+
+    table = Table()
+    table.add_column("[magenta]Optie[/]", justify="center", style="bold gold1")
+    table.add_column("[magenta]Actie[/]")
+
+    table.add_row("1.", "Spellen")
+    table.add_row("2.", "Saldo")
+    table.add_row("3.", "Account")
+    table.add_row("0.", "Stop")
+    panel = Panel.fit(table,
+title="[bold yellow]Casino de Gouden Driehoek - Hoofdmenu[/]",
+border_style="gold1",
+padding=(1, 4))
+    console = Console()
+    console.print(panel)
 
 def show_games_menu():
     """Toon het menu met de beschikbare casinospellen."""
-    print("""Casino de Gouden Driehoek - spellen
------------------------------------
-1. Fruitmachine
-2. Roulette
-3. Blackjack
-0. Terug""")
+
+    table = Table()
+    table.add_column("[magenta]Optie[/]", justify="center", style="bold gold1")
+    table.add_column("[magenta]Spel[/]")
+
+    table.add_row("1.", "Fruitmachine")
+    table.add_row("2.", "Roulette")
+    table.add_row("3.", "Blackjack")
+    table.add_row("0.", "Terug")
+    panel = Panel.fit(table,
+                      title="[bold yellow]Casino de Gouden Driehoek - Spelmenu[/]",
+                      border_style="gold1",
+                      padding=(1, 4))
+    console = Console()
+    console.print(panel)
+
+def show_account_menu():
+    """Toon het account menu van het casino."""
+
+    table = Table()
+    table.add_column("[magenta]Optie[/]", justify="center", style="bold gold1")
+    table.add_column("[magenta]Actie[/]")
+
+    table.add_row("1.", "Toon alle accounts")
+    table.add_row("2.", "Nieuw account")
+    table.add_row("3.", "Wissel account")
+    table.add_row("3.", "Verwijder account")
+    table.add_row("0.", "Terug")
+    panel = Panel.fit(table,
+                      title="[bold yellow]Casino de Gouden Driehoek - Account menu[/]",
+                      border_style="gold1",
+                      padding=(1, 4))
+    console = Console()
+    console.print(panel)
+
+def initialize_player(total_cost):
+    global players
+    global current_player
+
+    players = create_start_players()
+    name, firstname, lastname = get_name()
+    current_player = name
+
+    if name in players:
+        profile = players[current_player]
+        salutation = determine_salutation(profile["firstname"], profile["lastname"], profile["gender"])
+        balance = get_current_balance(players, current_player)
+        print(f"""Casino de Gouden Driehoek
+-------------------------
+Welkom terug, {salutation}
+
+huidige saldo: € {balance:.2f}""")
+
+    else:
+        profile, budget_statement = create_account(players, total_cost, name, firstname, lastname)
+        profile = players[current_player]
+        print(players[current_player]["balance"])
+        balance = get_current_balance(players, current_player)
+        startbudget = balance + total_cost
+        print(profile["gender"])
+        salutation = determine_salutation(profile["firstname"], profile["lastname"], profile["gender"])
+        show_welcome_message(startbudget, balance, salutation, total_cost, budget_statement)
+
+    return profile, balance
 
 def main():
     """Start het casino en verwerkt het hoofdmenu van de applicatie."""
-    firstname = input("Voornaam: ").capitalize()
-    lastname = input("Achternaam: ").capitalize()
-
-    gender = input("Geslacht: (m/v)")
-    birthdate = input("Geboortedatum: dd-mm-yyyy")
-    check_age(birthdate)
-
-    salutation = determine_salutation(firstname, lastname, gender)
-
-    startbudget = float(input("Wat is je startbudget in euro's?"))
-
-    #Vaste kosten
-    ENTRY = 12.0
-    FLIPFLOPS = 5.0
-    SUNGLASSES = 7.0
-
-    total_costs = ENTRY + FLIPFLOPS + SUNGLASSES
-    available_budget = startbudget - total_costs
-
-    if startbudget >= total_costs:
-        budget_statement = "Je hebt nog genoeg budget voor toegang tot het casino."
-
-    else:
-        budget_statement = "Je hebt niet voldoende budget voor toegang tot het casino."
-    balance = available_budget
-
-    show_welcome_message(startbudget, available_budget, salutation, total_costs, budget_statement)
-
+    profile, balance = initialize_player(total_cost)
     while True:
         show_main_menu()
         choice_main = int(input("Maak een keuze (0 om te stoppen): "))
@@ -147,16 +124,37 @@ def main():
                             break
                         case 1:
                             balance = play_fruitmachine(balance)
+                            players[current_player]["balance"] = balance
                         case 2:
                             balance = play_roulette(balance)
+                            players[current_player]["balance"] = balance
                         case 3:
                             balance = play_blackjack(balance)
+                            players[current_player]["balance"] = balance
 
             case 2:
-                show_balance(balance)
+                show_balance(players, current_player)
 
             case 3:
-                show_account(firstname, lastname, birthdate, salutation)
+                while True:
+                    show_account_menu()
+                    choice_account = int(input("Maak een keuze (0 om te stoppen): "))
+                    match choice_account:
+                        case 0:
+                            break
+                        case 1:
+                            show_accounts(players)
+                        case 2:
+                            name, firstname, lastname = get_name()
+                            create_account(players, total_cost, name, firstname, lastname)
+                        case 3:
+                            switch_player()
+                        case 4:
+                            #print(f"Main current_player: {current_player}")
+                            delete_player(current_player)
+                        case _:
+                            print("Foutive invoer")
+                            break
 
 if __name__ == "__main__":
     main()

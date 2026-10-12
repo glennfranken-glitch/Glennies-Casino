@@ -37,7 +37,8 @@ def show_hand(label, hand, hide_card=False):
             label (str): Het label dat voor de hand wordt weergegeven.
             hand (list): De kaarten in de hand.
             hide_card (bool): Bepaalt of de tweede kaart verborgen wordt.
-        """    if hide_card:
+        """
+    if hide_card:
         visible_cards = hand[:1] + ["??"]
     else:
         visible_cards = hand
@@ -51,7 +52,8 @@ def calculate_card_value(card):
 
         Returns:
             int: De waarde van de kaart.
-        """    rank = card[1]
+        """
+    rank = card[1]
     if rank in ["J", "Q", "K"]:
         return 10
     elif rank == "A":
@@ -67,7 +69,8 @@ def calculate_hand_value(hand):
 
         Returns:
             int: De totale waarde van de hand.
-        """    total = 0
+        """
+    total = 0
     number_of_aces = 0
     for card in hand:
         if card[1] == "A":

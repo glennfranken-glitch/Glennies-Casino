@@ -1,3 +1,6 @@
+from rich.console import Console
+from rich.panel import Panel
+
 def get_stake(balance):
     while True:
         stake = float(input("Hoeveel wil je inzetten?(0 om te stoppen): "))
@@ -15,17 +18,35 @@ def get_stake(balance):
 
         return stake
 
-def show_account(firstname, lastname, birthdate, salutation):
-    """Toon de accountgegevens van de speler.
+# def show_account(firstname, lastname, birthdate, salutation):
+#     """Toon de accountgegevens van de speler.
+#
+#     Parameters:
+#         name (str): De naam van de speler.
+#         birthdate (str): De geboortedatum van de speler.
+#         salutation (str): De aanspreekvorm van de speler.
+#     """
+#     age = calculate_age(birthdate)
+#
+#     panel = Panel.fit(
+#         f"""Naam: {firstname} {lastname}
+#     Geboortedatum: {birthdate}
+#     Aanspreekvorm: {salutation}
+#     Leeftijd: {age}""",
+#         title="[bold yellow]Account[/]",
+#         border_style="gold1",
+#         padding=(1, 4)
+#     )
+#
+#     console = Console()
+#     console.print(panel)
 
-    Parameters:
-        name (str): De naam van de speler.
-        birthdate (str): De geboortedatum van de speler.
-        salutation (str): De aanspreekvorm van de speler.
-    """
-    age = calculate_age(birthdate)
+def get_name():
+    firstname = input("Voornaam: ").capitalize()
+    lastname = input("Achternaam: ").capitalize()
+    name = firstname + " " + lastname
+    return name, firstname, lastname
 
-    print(f"""Naam: {firstname} {lastname}
-Geboortedatum: {birthdate}
-Aanspreekvorm: {salutation}
-Leeftijd: {age}""")
+def get_current_balance(players, current_player):
+    balance = players[current_player]["balance"]
+    return balance

@@ -1,14 +1,29 @@
 from games.helper import get_stake
+import random
+from rich.console import Console
+from rich.panel import Panel
+from rich.table import Table
 
 def show_roulette():
     """Toon de beschikbare inzetmogelijkheden van roulette."""
-    print("""Kies één van de volgende opties:
 
-1. Rood
-2. Zwart
-3. Even
-4. Oneven
-0. Stop""")
+    table = Table()
+    table.add_column("[magenta]Optie[/]", justify="center", style="bold gold1")
+    table.add_column("[magenta]Actie[/]")
+
+    table.add_row("1.", "Rood")
+    table.add_row("2.", "Zwart")
+    table.add_row("3.", "Even")
+    table.add_row("4.", "Oneven")
+    table.add_row("0.", "Stop")
+    panel = Panel.fit(table,
+                      title="[bold yellow]Kies één van de volgende opties:[/]",
+                      border_style="gold1",
+                      padding=(1, 4))
+    console = Console()
+    console.print(panel)
+    choice = int(input("Keuze: "))
+    return choice
 
 def determine_win(choice, color, odd_even):
     """Bepaal of de gekozen inzet overeenkomt met de uitkomst van de roulette.
@@ -42,10 +57,12 @@ def play_roulette(balance):
         Returns:
             float: Het nieuwe saldo na het roulette-spel.
         """
-    round_number = 1
 
     while True:
-        show_roulette()
+        console = Console()
+        choice = show_roulette()
+        if choice == 0:
+            return balance
 
         stake = get_stake(balance)
         if stake == 0:
@@ -53,8 +70,7 @@ def play_roulette(balance):
 
         balance -= stake
 
-        spin = (round_number * 7) % 37
-
+        spin = random.randint(0, 36)
         if spin == 0:
             color = "groen"
             odd_even = "geen"
@@ -79,15 +95,13 @@ def play_roulette(balance):
 
         if win:
             balance = balance + stake * 2
-            win_loss = "wint"
+            console.print(f"""De bal valt op {color} ({spin}).
+Je [green]wint[/] €{stake:.2f}
+[bold]Nieuw saldo: €{balance:.2f}[/]""")
         else:
-            win_loss = "verliest"
-
-        print(f"""De bal valt op {color} ({spin}).
-Je {win_loss} €{stake:.2f}
-Nieuw saldo: €{balance:.2f}""")
-
-        round_number += 1
+            console.print(f"""De bal valt op {color} ({spin}).
+            Je [red]verliest[/] €{stake:.2f}
+            [bold]Nieuw saldo: €{balance:.2f}[/]""")
 
     print(f"Je eindigt met €{balance:.2f}")
 
