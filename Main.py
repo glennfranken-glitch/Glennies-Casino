@@ -95,7 +95,7 @@ Welkom terug, {salutation}
 huidige saldo: € {balance:.2f}""")
 
     else:
-        profile, budget_statement = create_account(total_cost, name, firstname, lastname)
+        profile, budget_statement = create_account(players, total_cost, name, firstname, lastname)
         profile = players[current_player]
         print(players[current_player]["balance"])
         balance = get_current_balance(players, current_player)
@@ -145,7 +145,8 @@ def main():
                         case 1:
                             show_accounts(players)
                         case 2:
-                            create_account(players, total_cost, name = None, firstname = None, lastname = None)
+                            name, firstname, lastname = get_name()
+                            create_account(players, total_cost, name, firstname, lastname)
                         case 3:
                             switch_player()
                         case 4:

@@ -2,6 +2,7 @@
 from rich.console import Console
 from rich.panel import Panel
 from games.helper import get_name
+import datetime
 
 players = {}
 current_player = None
@@ -40,9 +41,17 @@ def calculate_age(birthdate):
     Returns:
         int: De berekende leeftijd van de speler.
     """
-    birth_day, birth_month, birth_year = birthdate.split("-")
-    birth_year = int(birth_year)
-    age = 2026 - birth_year
+
+    today_value = datetime.datetime.today()
+    birthdate_value = datetime.datetime.strptime(birthdate, "%d-%m-%Y")
+    print(birthdate_value.year)
+    age = today_value.year - birthdate_value.year
+
+    if (today_value.month, today_value.day) < (
+            birthdate_value.month, birthdate_value.day
+    ):
+        age -= 1
+
     return age
 
 def check_age(birthdate):
@@ -144,9 +153,8 @@ def create_profile(name, firstname, lastname, birthdate, gender, balance):
 
     return profile
 
-def create_account(total_cost, name = None, firstname = None, lastname = None):
+def create_account(players, total_cost, name = None, firstname = None, lastname = None):
     global current_player
-    global players
 
     if name in players:
         print(f"Het account: {name} bestaat al. Gebruik 'Wissel Account' om het te openen")
