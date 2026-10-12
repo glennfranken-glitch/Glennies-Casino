@@ -1,5 +1,5 @@
 from rich.console import Console
-From rich.panel import Panel
+from rich.panel import Panel
 
 def get_stake(balance):
     while True:

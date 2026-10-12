@@ -1,5 +1,8 @@
 from games.helper import get_stake
 import random
+from rich.panel import Panel
+from rich.console import Console
+from rich.table import Table
 
 def determine_rolls():
     """Bepaal de drie symbolen van de fruitmachine op basis van een vaste set symbolen. Er worden random 3 gekozen
@@ -43,7 +46,6 @@ def play_fruitmachine(balance):
         Returns:
             float: Het nieuwe saldo na het fruitmachine-spel.
         """
-    round_number = 1
     while True:
         choice = input(f"""Huidig saldo: € {balance:.2f}
 
@@ -58,13 +60,22 @@ Druk op enter om te spelen of typ stop om terug te gaan:""")
                     return balance
                 balance -= stake
 
-                rol1, rol2, rol3 = determine_rolls(round_number)
+                rol1, rol2, rol3 = determine_rolls()
+                table = Table(show_header=False)
+                table.add_row(f"[gold]{rol1}[/]",f"[gold]{rol2}[/]",f"[gold]{rol3}[/]")
 
-                print(f"Rollen: {rol1} | {rol2} | {rol3}")
+                panel = Panel.fit(table,
+                                  title="[bold yellow]Fruitmachine-rollen[/]",
+                                  border_style="gold1",
+                                  padding=(1, 4))
+                console = Console()
+                console.print(panel)
 
                 payout = determine_payout(rol1, rol2, rol3, stake)
                 if payout > 0:
                     balance += payout
+                    console = Console()
+                    console.print(f"Je hebt [bold]{payout:.2f}[/] [bold green]gewonnen[/]")
                 else:
-                    print("Je hebt verloren")
-                round_number += 1
+                    console = Console()
+                    console.print("Je hebt [red]verloren[/]")
